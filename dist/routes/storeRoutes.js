@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const storeController_1 = require("../controller/storeController");
+const uploadMiddleware_1 = require("../middleware/uploadMiddleware");
+const authentication_1 = require("../middleware/authentication");
+const router = (0, express_1.Router)();
+router.post("/add", uploadMiddleware_1.singleUploadStore, authentication_1.verifyAuth, storeController_1.createStore);
+router.get("/", storeController_1.getAllStore);
+// router.get("/nearby", verifyAuth, getStoresWithinRadius);
+router.post("/products/add/:_id", uploadMiddleware_1.multipleUpload, authentication_1.verifyAuth, storeController_1.addProductToStore);
+router.get("/:_id", authentication_1.verifyAuth, storeController_1.getProductsByStore);
+router.get("/category/:type", authentication_1.verifyAuth, storeController_1.getStoresByCategory);
+exports.default = router;
